@@ -111,8 +111,8 @@ class SearchAgent(SARBaseAgent):
         print(f"The rate of area covered during the search is {self.areaCoverRate} in (m^2/seconds).")
 
 ag = SearchAgent()
-print(ag.get_current_time())
-print(ag.get_time_difference("2025-02-15 08:30:38.173807+00:00", "2025-02-14 08:30:38.173807+00:00"))
+# print(ag.get_current_time())
+# print(ag.get_time_difference("2025-02-15 08:30:38.173807+00:00", "2025-02-14 08:30:38.173807+00:00"))
 
 
 
