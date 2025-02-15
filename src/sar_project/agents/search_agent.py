@@ -1,3 +1,19 @@
+'''
+This Search Agent implements the Search Team Leader.
+The Search Agent aims to produce 3 results:
+1. Store and manage the retrieval of clues passed to it as a codex. If no additional information is given about the item found,
+then an api call is made to give context of what it could possibly be in the context of Search and Rescue operations.
+2. Keep track of the Date and Time of the search. The elapsed time since the search started is calculated and presented for users.
+3. Keep track of distance searched by search radius. This is a simple distance tracker, with a rate tracing done over the elapsed time.
+
+Note:
+- Time is kept in ISO Universal Time (UTC) format, while elapsed time is kept in hours and minutes.
+ex. "2025-02-15 08:30:38.173807+00:00"
+- The class methods may be used for computation and presentation of the agent. Textual prints also post for users.
+- Testing is done with a class made in test_search_agent.py
+- The above three main functions of the agent are separated into the methods below.
+'''
+
 import google.generativeai as genai
 from sar_project.agents.base_agent import SARBaseAgent
 import os
@@ -82,6 +98,7 @@ class SearchAgent(SARBaseAgent):
 
     def get_clue(self, item):
         if item in self.clues:
+            print(f"The found clue: {item} tells us: {self.clues[item]}.")
             return self.clues[item]
         else:
             return "This item does not appear to be a clue found yet."
@@ -90,12 +107,15 @@ class SearchAgent(SARBaseAgent):
         self.searchRadius = radius
 
     def get_distance_covered(self):
-        return math.pi * (self.searchRadius ** 2)
+        distanceCovered = math.pi * (self.searchRadius ** 2)
+        print(f"Distance Covered so far: {distanceCovered}.")
+        return distanceCovered
 
     def get_area_covered_by_time(self):
         currentTime = self.get_current_time()
         timeElapsed = self.get_elapsed_search_time(self, currentTime)
         self.areaCoverRate = self.get_distance_covered() / (timeElapsed[0] * 3600 + timeElapsed[1])
+        print(f"The rate of distance being covered is: {self.areaCoverRate}.")
         return self.areaCoverRate
 
     def end_search(self):
@@ -111,8 +131,6 @@ class SearchAgent(SARBaseAgent):
         print(f"The rate of area covered during the search is {self.areaCoverRate} in (m^2/seconds).")
 
 ag = SearchAgent()
-# print(ag.get_current_time())
-# print(ag.get_time_difference("2025-02-15 08:30:38.173807+00:00", "2025-02-14 08:30:38.173807+00:00"))
 
 
 
