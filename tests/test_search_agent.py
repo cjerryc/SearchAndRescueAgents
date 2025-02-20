@@ -43,7 +43,7 @@ class TestSearchAgent:
 
     def test_get_area_covered_by_time(self, agent):
         radius = 3.0
-        agent.update_search_radius(self, radius)
+        agent.update_search_radius(radius)
         assert agent.get_distance_covered() == 28.274333882308138
 
 
